@@ -3,13 +3,14 @@ package edu.itstep.blockchain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.itstep.blockchain.domain.User;
 import jakarta.servlet.http.HttpServletResponse;
-
+@RestController
 public class UserController {
-	@Autowired
+	
 	UserService userService;
 	@PostMapping(
 			  value = "/createUser", consumes = "application/json", produces = "application/json")
