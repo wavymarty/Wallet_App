@@ -3,6 +3,8 @@ package edu.itstep.blockchain.domain;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,8 +26,9 @@ public class WalletAddress {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 @Column(name="WALLET_ID")
 	 private Long id;
-	 @ManyToOne(cascade= CascadeType.ALL)
+	 @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
 	 @JoinColumn(name = "ID_USER")
+	 @OnDelete(action = OnDeleteAction.CASCADE)
 	 private User user;
 	 @Column(name="public_key")
 	 private PublicKey publicKey;
