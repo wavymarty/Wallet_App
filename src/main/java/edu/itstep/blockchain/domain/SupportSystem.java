@@ -14,7 +14,7 @@ import lombok.Data;
 public class SupportSystem {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "support_system")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "support_system_seq")
 	private long id;
 
 	@Column(name = "title")

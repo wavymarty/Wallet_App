@@ -9,6 +9,6 @@ import edu.itstep.blockchain.domain.SupportSystem;
 
 @Repository
 public interface SuportSystemRepository extends JpaRepository<SupportSystem, Long> {
-     List<SupportSystem> findByUnresolved(boolean status);
+     List<SupportSystem> findByStatus(boolean status);
      List<SupportSystem> findByTitleContaining(String title);
 }
