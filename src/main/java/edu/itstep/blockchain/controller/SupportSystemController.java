@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.itstep.blockchain.domain.Issue;
 import edu.itstep.blockchain.domain.SupportSystem;
+import edu.itstep.blockchain.repository.IssueRepository;
 import edu.itstep.blockchain.repository.SuportSystemRepository;
 
 @RestController
@@ -20,9 +22,11 @@ import edu.itstep.blockchain.repository.SuportSystemRepository;
 public class SupportSystemController {
   	
   SuportSystemRepository ssr;
+  IssueRepository ir;
   
-  public SupportSystemController(SuportSystemRepository ssr) {
+  public SupportSystemController(SuportSystemRepository ssr, IssueRepository ir) {
 	  this.ssr = ssr;
+	  this.ir = ir;
   }
   //domain-name:port/support-system?title=test&name=test2
   @GetMapping("/all")
@@ -37,14 +41,14 @@ public class SupportSystemController {
 	  return new ResponseEntity<>(systems, HttpStatus.OK);
   }
   @GetMapping("/issue/{id}")
-  public ResponseEntity<SupportSystem> getTutorialById(@PathVariable("id") long id) throws ResourceNotFoundException {
-	  SupportSystem tutorial = ssr.findById(id)
+  public ResponseEntity<Issue> getById(@PathVariable("id") long id) throws ResourceNotFoundException {
+	  Issue issue = ir.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Not found issue with id = " + id));
 
-    return new ResponseEntity<>(tutorial, HttpStatus.OK);
+    return new ResponseEntity<>(issue, HttpStatus.OK);
   }
   @GetMapping("/issues/resolved")
-  public ResponseEntity<List<SupportSystem>> findByPublished() {
+  public ResponseEntity<List<SupportSystem>> findByStatus() {
     List<SupportSystem> listIssue = ssr.findByStatus(true);
 
     if (listIssue.isEmpty()) {

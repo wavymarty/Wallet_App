@@ -589,3 +589,12 @@ insert into SUPPORT_SYSTEM (DESCRIPTION ,STATUS ,TITLE ) values (1, 'windows iss
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-07-22 10:57:57 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "insert into ISSUE (id, content,support_system) values (1,'windows server doesn't boot...................[*]',1);"; SQL statement:
+insert into ISSUE (id, content,support_system) values (1,'windows server doesn't boot...................',1); [42000-214]
+2023-07-22 10:58:21 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "insert into ISSUE (id, content,support_system) values (1,'windows server doesn\\'[*]t boot'...................',1)"; expected "[, ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, ,, )"; SQL statement:
+insert into ISSUE (id, content,support_system) values (1,'windows server doesn\'t boot'...................',1) [42001-214]
+2023-07-22 10:58:52 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "insert into ISSUE (id, content,support_system) values (1,'windows server doesn\\'t boot...................[*]',1);"; SQL statement:
+insert into ISSUE (id, content,support_system) values (1,'windows server doesn\'t boot...................',1); [42000-214]
