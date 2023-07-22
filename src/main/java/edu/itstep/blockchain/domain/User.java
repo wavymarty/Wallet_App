@@ -14,7 +14,7 @@ import lombok.Data;
 @Table(name="user_accounts")
 public class User {
  @Id
- @GeneratedValue(strategy = GenerationType.AUTO)
+ @GeneratedValue(strategy = GenerationType.AUTO, generator="user_seq")
  @Column(name="ID_USER")
  private Long id;
  
