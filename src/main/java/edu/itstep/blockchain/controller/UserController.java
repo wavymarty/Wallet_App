@@ -3,6 +3,10 @@ package edu.itstep.blockchain.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,17 +23,27 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("user")
 @CrossOrigin
+
 public class UserController {
 	@Autowired
 	UserServiceImpl userService;
+
+	@GetMapping("/test_access")
+	public String greeting(Authentication authentication) {
+
+		String userName = authentication.getName();
+
+		return "Spring Security In-memory Authentication Example - Welcome " + userName;
+	}
 
 	@PostMapping(value = "/createUser", consumes = "application/json", produces = "application/json")
 	public User createUser(@RequestBody User user) {
 		return userService.saveUpdateUser(user);
 	}
-	
+
+	@Secured({ "ROLE_ADMIN"})
 	@GetMapping("/users")
-	public List<User> getAllUsers(){
+	public List<User> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
