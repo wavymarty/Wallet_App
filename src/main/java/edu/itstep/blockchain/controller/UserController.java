@@ -3,9 +3,10 @@ package edu.itstep.blockchain.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +23,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("user")
-@CrossOrigin
+
 
 public class UserController {
 	@Autowired
 	UserServiceImpl userService;
-
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@GetMapping("/test_access")
 	public String greeting(Authentication authentication) {
 
@@ -41,10 +42,14 @@ public class UserController {
 		return userService.saveUpdateUser(user);
 	}
 
-	@Secured({ "ROLE_ADMIN"})
+	@Secured({ "ROLE_ROOT","ROLE_ADMIN"})
 	@GetMapping("/users")
-	public List<User> getAllUsers() {
-		return userService.getAllUsers();
+	
+	public ResponseEntity<List<User>> getAllUsers() {
+		
+		return
+				 ResponseEntity.ok().body(userService.getAllUsers());
+				
 	}
 
 	@PostMapping(value = "/updateUser", consumes = "application/json", produces = "application/json")

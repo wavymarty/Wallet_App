@@ -1,6 +1,10 @@
 package edu.itstep.blockchain;
 
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,19 +23,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled=true, prePostEnabled=true)
 public class BasicAuthConfiguration {
-
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(
 				(requests) -> 
 				requests.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
 				
-				.anyRequest().authenticated()).csrf(AbstractHttpConfigurer::disable).httpBasic(Customizer.withDefaults());
+				.anyRequest().authenticated()).cors(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable)
+		.httpBasic(Customizer.withDefaults());
 		http.headers((headers) -> headers.disable());
 		return http.build();
 	}
@@ -44,10 +52,23 @@ public class BasicAuthConfiguration {
 		UserDetails admin = User.builder().username("admin")
 				.password(passwordEncoder().encode("password"))
 				.roles("USER","ADMIN").build();
-		return new InMemoryUserDetailsManager(user, admin);
+		UserDetails root = User.builder().username("root")
+				.password(passwordEncoder().encode("root"))
+				.roles("ROOT").build();
+		return new InMemoryUserDetailsManager(user, admin,root);
 
 	}
-
+	@Bean
+	  CorsConfigurationSource corsConfigurationSource() {
+	      CorsConfiguration configuration = new CorsConfiguration();
+	      configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+	      configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+	      configuration.setAllowedHeaders(List.of("*"));
+	      configuration.setAllowCredentials(true);
+	      UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	      source.registerCorsConfiguration("/**", configuration);
+	      return source;
+	  }
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
