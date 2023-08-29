@@ -3,6 +3,7 @@ package edu.itstep.blockchain.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.itstep.blockchain.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package edu.itstep.blockchain.controller;
+package edu.itstep.blockchain.exceptions;
 
 public class ResourceNotFoundException extends Exception{
    

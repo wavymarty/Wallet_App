@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import edu.itstep.blockchain.domain.User;
 import edu.itstep.blockchain.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
